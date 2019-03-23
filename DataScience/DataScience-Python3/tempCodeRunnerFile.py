@@ -1,0 +1,2 @@
+
+findspark.init('D:\\Spark')
