@@ -1,0 +1,5 @@
+*.exe
+
+DataScience/
+
+node_modules/

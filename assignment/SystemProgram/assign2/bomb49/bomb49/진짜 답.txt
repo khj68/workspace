@@ -1,0 +1,8 @@
+1 : All your base are belong to us.
+2 : 1 2 4 7 11 16
+3 : 2 877
+4 : 2 13 DrEvil
+5 : hkadje
+6 : 4 5 6 3 1 2
+
+secret : 36

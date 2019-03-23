@@ -1,0 +1,3 @@
+10
+$
+SKKU Security Lab (seclab) supports research and education in security engineering. The lab is a part of the Department of Computer Science and Engineering, College of Information and Communication Engineering, Sungkyunkwan University (SKKU).

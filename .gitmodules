@@ -1,0 +1,6 @@
+[submodule "git/2018-2"]
+	path = git/2018-2
+	url = https://github.com/khj68/workspace.git
+[submodule "git/ReduxSimpleStarter"]
+	path = git/ReduxSimpleStarter
+	url = https://github.com/khj68/workspace.git

@@ -1,0 +1,14 @@
+cpu사용:
+https://hashcode.co.kr/questions/290/%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%95%88%EC%97%90%EC%84%9C-cpu-memory-%EC%86%8C%EB%B9%84%EB%9F%89-%EC%95%8C%EC%95%84%EB%82%B4%EB%8A%94-%EB%B2%95
+
+ansi 탈출코드:
+http://ascii-table.com/ansi-escape-sequences.php
+
+\033[1A 하면 위로 올라감
+\033[F 하면 해당 라인 다지움
+
+/proc/[pid]/stat
+http://hoon038.tistory.com/10
+
+파일입출력:
+http://sosal.kr/115

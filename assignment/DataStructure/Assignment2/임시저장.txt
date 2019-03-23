@@ -1,0 +1,263 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+
+typedef struct point {
+	int row;
+	int col;
+	int depth;
+	struct point* next;
+}point;
+
+int row = 1, col = 1, haveAnswer = 0, warpCount = 0, findFirstWarp = 0;
+point warpList[20], firstWarp;
+int distance;
+int dx[4] = {-1,1,0,0};
+int dy[4] = {0,0,-1,1};
+char map[301][301] = { NULL, };
+int visit[301][301] = { 0, };
+point* head;
+point* tail;
+point start, end;
+
+
+
+
+int isEmpty() {
+	if (head == NULL) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+void qPush(int r, int c, int d) {
+	point* newPoint = (point*)malloc(sizeof(point));
+	newPoint->row = r;
+	newPoint->col = c;
+	newPoint->depth = d;
+	newPoint->next = NULL;
+	if (isEmpty() == 1) {
+		head = newPoint;
+		tail = newPoint;
+	}
+	else {
+		tail->next = newPoint;
+		tail = newPoint;
+	}
+}
+
+void sPush(int r, int c, int d) {
+	point* newPoint = (point*)malloc(sizeof(point));
+	newPoint->row = r;
+	newPoint->col = c;
+	newPoint->depth = d;
+	if (head != NULL) {
+		newPoint->next = head->next;
+	}
+	else {
+		newPoint->next = NULL;
+	}
+	head = newPoint;
+}
+
+void pop() {
+	if (isEmpty() == 1) {
+		printf("The list is empty!\n");
+		return;
+	}
+	printf("여기까지 됨\n");
+	point* temp;
+	temp = head->next;
+	printf("여기까지 됨\n");
+	free(head); 
+	printf("여기까지 됨\n");
+	head = temp;
+	printf("여기까지 됨\n");
+}
+
+
+
+
+void bfs(int r, int c) {
+	int i, j;
+	int tempDepth = head->depth;
+	//갈 수 있는가? //큐에 넣는다.(넣을 때 방문체크, 숫자로 하자)
+	for (i = 0; i < 4; i++) {
+		if (r + dx[i] < 1 || c + dy[i]<1 || r + dx[i] > row || c + dy[i] > col) {
+			continue;
+		}
+		if (map[r + dx[i]][c + dy[i]] == '*') {
+			continue;
+		}
+		/*if (map[r + dx[i]][c + dy[i]] <= map[r][c]) {
+			continue;
+		}*/
+		/*if (visit[r + dx[i]][c + dy[i]] >0 || visit[r + dx[i]][c + dy[i]] <=visit[r][c]) {
+			continue;
+		}*/
+		if (visit[r + dx[i]][c + dy[i]] > 0) {
+			continue;
+		}
+		//printf("조건들 모두 통과\n");
+		//큐에 넣는다.
+		if (map[r + dx[i]][c + dy[i]] == 'w') {
+			if (findFirstWarp == 0) {
+				firstWarp.row = r + dx[i];
+				firstWarp.col = c + dy[i];
+				findFirstWarp = 1;
+			}
+			while (warpCount!=0) {
+				qPush(warpList[warpCount-1].row, warpList[warpCount-1].col, tempDepth+1);
+				warpCount--;
+				printf("warp넣는 과정 시행됨\n");
+				visit[warpList[warpCount - 1].row][warpList[warpCount - 1].col] = tempDepth + 1;
+			}
+		}
+		else if (map[r + dx[i]][c + dy[i]] == 'e') {
+			haveAnswer = 1;
+			distance = tempDepth + 1;
+			printf("정답을 찾았다! row: %d, col: %d, depth: %d\n", r + dx[i], c + dy[i], tempDepth+1);
+		}
+		else {
+			qPush(r + dx[i], c + dy[i], tempDepth + 1);
+		}
+		
+		printf("row: %d, col: %d 방문! depth는 %d!\n", r + dx[i], c + dy[i], tempDepth+1);
+		visit[r + dx[i]][c + dy[i]] = tempDepth+1;
+	}
+}
+
+void bfs2(int r, int c, int depth) {
+	int i, j;
+	
+	for (i = 0; i < 4; i++) {
+		if (r + dx[i] < 1 || c + dy[i]<1 || r + dx[i] > row || c + dy[i] > col) {
+			continue;
+		}
+		if (map[r + dx[i]][c + dy[i]] == '*') {
+			continue;
+		}
+		
+		if (map[r + dx[i]][c + dy[i]] == 's') {
+			haveAnswer = 1;
+			sPush(r + dx[i], c + dy[i], depth-1);
+			printf("찾았다!\n");
+			return;
+		}
+
+		if (visit[r + dx[i]][c + dy[i]] == depth - 1) {
+			sPush(r + dx[i], c + dy[i], depth-1);
+			printf("row: %d, col: %d, depth: %d 방문!\n", r + dx[i], c + dy[i], depth-1);
+			return;
+		}
+
+
+		if (i == 3) {
+			printf("row: %d, col: %d, depth: %d 방문!\n", firstWarp.row, firstWarp.col,depth-1);
+			sPush(firstWarp.row, firstWarp.col, depth);
+		}
+	}
+}
+
+
+
+int main() {
+	char space;
+	int i, j;
+
+	FILE* fpRead = fopen("hw2_input.txt", "r");
+	FILE* fpWrite = fopen("hw2_output.txt", "w");
+
+	while (1) {
+		col = 1;
+		while (1) {
+			
+			map[row][col] = fgetc(fpRead);
+			space = fgetc(fpRead); //띄어쓰기 처리
+
+			if (map[row][col] == 'w') { //워프들 저장
+				warpList[warpCount].row = row;
+				warpList[warpCount].col = col;
+				warpCount++;
+			}
+
+			if (map[row][col] == 's') { //시작점 저장
+				start.row = row;
+				start.col = col;
+			}
+			
+			if (map[row][col] == 'e') { //끝점 저장
+				end.row = row;
+				end.col = col;
+			}
+
+			if (space == 10 || space == -1) { //개행이면 다음 row로
+				break;
+			}
+			col++;
+		}
+
+		if (space == -1) break;
+		row++;
+	}
+
+	for (i = 1; i < 5; i++) {
+		for (j = 1; j < 5; j++) {
+			printf("%c ", map[i][j]);
+		}
+		printf("\n");
+	}
+	printf("row는 %d, col은 %d\n", start.row, start.col);
+	printf("row는 %d, col은 %d\n", end.row, end.col);
+	printf("row는 %d, col은 %d\n", warpList[0].row, warpList[0].col);
+	//bfs(start.row, start.col);
+	printf("warpCount는 %d\n", warpCount);
+	qPush(start.row, start.col, 0);
+	visit[start.row][start.col] = 1;
+
+	while (head != NULL) {
+		bfs(head->row, head->col);
+		pop();
+		if (haveAnswer == 1) {
+			break;
+		}
+	}
+
+	printf("답은 %d\n", distance);
+
+	for (i = 1; i <= row; i++) {
+		for (j = 1; j <= col; j++) {
+			printf("%d ", visit[i][j]);
+		}
+		printf("\n");
+	}
+
+	while (head != NULL) {
+		pop();
+	}
+	printf("pop다 끝냄!\n");
+
+	haveAnswer = 0;
+	sPush(end.row, end.col, distance);
+	printf("현재 head의 row:%d, col:%d\n", head->row, head->col);
+	while (1) {
+		bfs2(head->row, head->col, head->depth);
+		printf("현재 head의 row:%d, col:%d\n", head->row, head->col);
+		if (haveAnswer == 1) {
+			break;
+		}
+	}
+	head = head->next;
+	printf("실행\n");
+	printf("다음 head의 row:%d, col:%d\n", head->row, head->col);
+	while (head != NULL) {
+		printf("(%d,%d) ,", head->row, head->col);
+		pop();
+	}
+
+	fclose(fpRead);
+	fclose(fpWrite);
+	return 0;
+}

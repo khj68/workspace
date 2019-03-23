@@ -1,0 +1,5 @@
+https://m.blog.naver.com/PostView.nhn?blogId=justkukaro&logNo=220652599808&proxyReferer=https%3A%2F%2Fwww.google.co.uk%2F  (중복단어 제외하는법 나와있음)
+
+https://www.google.co.uk/search?newwindow=1&ei=Be6mW9vdFcya8QXRx4_QBg&q=%EC%A0%80%EC%88%98%EC%A4%80+%EC%9E%85%EC%B6%9C%EB%A0%A5+%EA%B0%9C%ED%96%89&oq=%EC%A0%80%EC%88%98%EC%A4%80+%EC%9E%85%EC%B6%9C%EB%A0%A5+%EA%B0%9C%ED%96%89&gs_l=psy-ab.3...300049.302340.0.302413.17.11.0.0.0.0.186.1075.0j8.8.0....0...1c.1j4.64.psy-ab..12.0.0....0.4V4o2H11ECE		(저수준 입출력 개행)
+
+http://12bme.tistory.com/211   (저수준 파일 입출력)
