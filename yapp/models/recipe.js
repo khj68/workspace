@@ -13,7 +13,7 @@ let imageSchema = new Schema({
   image : { data : Buffer, contentType : String }
 })
 
-let recipeShema = new Schema({
+let recipeSchema = new Schema({
   name : { type : String, required : true },
   glass : { type : int, required : true },
   percent : { type : int, required : true },
@@ -27,4 +27,4 @@ let recipeShema = new Schema({
 
 recipeShema.index({ view : 1, tag : 1 })
 
-module.exports = mongoose.model('Recipe', recipeShema)
+module.exports = mongoose.model('Recipe', recipeSchema)
