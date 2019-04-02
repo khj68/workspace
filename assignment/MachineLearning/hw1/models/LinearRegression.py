@@ -14,26 +14,30 @@ class LinearRegression:
 
         # ========================= EDIT HERE ========================
         total_size = y.size
-        print(total_size)
+        # print(total_size)
         i = 0
-        print(self.W)
+        # print(self.W)
         def grad(W, x, y) : 
             batch_size = y.size
-            y = [[y[i]] for i in range(y.size)]
+            ny = [[y[i]] for i in range(y.size)]
+            # print(x)
+            # print(W)
             f = np.dot(x, W)
-            # print(f)
-            sum = 0
-            data = np.subtract(f,y)
+            # print(ny)
+            grad_sum = 0
+            data = np.subtract(f,ny)
+            # print(data)
             for i in range(batch_size) :
                 for j in range(W.size) :
-                    sum +=  data[i][0] * (x[i][j]/batch_size)
-            # print(sum)
+                    grad_sum +=  data[i][0] * (x[i][j]/batch_size)
+            # print(grad_sum)
             # print(y)
-
-            return sum
-        
-        self.W = np.array([[11],[14],[12],[15],[10],[9],[11],[14],[8]])
+            loss = (data.sum())/(2*batch_size)
+            # print(loss)
+            return grad_sum, loss
+        loss_sum = 0
         for _ in range(epochs) :
+            loss_sum = 0
             while i<total_size :
                 if total_size - i < batch_size :
                     mini_x = x[i:]
@@ -41,14 +45,15 @@ class LinearRegression:
                 else:
                     mini_x = x[i : i+batch_size]
                     mini_y = y[i : i+batch_size]
-                final_loss = grad(self.W, mini_x, mini_y)
-                self.W = self.W - lr*final_loss
+                gradient, loss = grad(self.W, mini_x, mini_y)
+                self.W = optim.update(self.W, lr, gradient)
                 # print(self.W)
                 i += batch_size
+                loss_sum += loss
             i = 0
-
-
-
+            loss_sum /= (total_size//batch_size)
+            print(loss_sum)
+        final_loss = loss_sum
 
         # def hypothesis(X, theta) :
         #     return np.dot(X, theta)
@@ -105,8 +110,17 @@ class LinearRegression:
         # Given the input 'x', the function should return prediction for 'x'
 
         # ========================= EDIT HERE ========================
+        pred = []
+        sample_size = x.size//x[0].size
+        # print(sample_size)
+        w = np.array([a[0] for a in self.W])
+        # print('w : ', w)
+        for i in range(sample_size) :
+            # print(x[i])
+            # print(np.dot(x[i], w))
+            pred.append(np.dot(x[i], w))
+            # print(np.dot(x,self.W.transpose()))
 
-
-
+        pred = np.array(pred)
         # ============================================================
         return pred

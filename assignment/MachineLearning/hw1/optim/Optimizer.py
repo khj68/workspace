@@ -16,16 +16,16 @@ return  : updated weight
 class SGD:
     def __init__(self, gamma, epsilon):
         # ========================= EDIT HERE =========================
-        pass
-
-
+        self.gamma = gamma
+        self.epsilon = epsilon
+        
         # =============================================================
 
     def update(self, w, grad, lr):
         updated_weight = None
         # ========================= EDIT HERE =========================
-
-
+        updated_weight = w - lr * grad
+        
 
         # =============================================================
         return updated_weight
@@ -33,17 +33,20 @@ class SGD:
 class Momentum:
     def __init__(self, gamma, epsilon):
         # ========================= EDIT HERE =========================
-        pass
-
-
+        self.gamma = gamma
+        self.epsilon = epsilon
+        self.v = np.zeros((1,1))
         # =============================================================
 
     def update(self, w, grad, lr):
         updated_weight = None
         # ========================= EDIT HERE =========================
+        if self.v.size == 1 :
+            self.v = np.zeros((w.size, 1))
 
+        self.v = self.gamma * self.v + lr * grad
 
-
+        updated_weight = w - self.v
 
         # =============================================================
         return updated_weight
@@ -53,16 +56,17 @@ class RMSProp:
     # ========================= EDIT HERE =========================
     def __init__(self, gamma, epsilon):
         # ========================= EDIT HERE =========================
-        pass
-
-
+        self.gamma = gamma
+        self.epsilon = epsilon
+        self.Eg = 0
         # =============================================================
 
     def update(self, w, grad, lr):
         updated_weight = None
         # ========================= EDIT HERE =========================
 
-
+        self.Eg = 0.9 * self.Eg + 0.1 * (grad**2)
+        updated_weight = w - (lr * grad)/((self.Eg + self.epsilon)**0.5)
 
 
         # =============================================================
