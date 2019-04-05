@@ -18,14 +18,12 @@ class SGD:
         # ========================= EDIT HERE =========================
         self.gamma = gamma
         self.epsilon = epsilon
-        
         # =============================================================
 
     def update(self, w, grad, lr):
         updated_weight = None
         # ========================= EDIT HERE =========================
-        updated_weight = w - lr * grad
-        
+        updated_weight = w - np.multiply(lr, grad)
 
         # =============================================================
         return updated_weight
@@ -44,8 +42,7 @@ class Momentum:
         if self.v.size == 1 :
             self.v = np.zeros((w.size, 1))
 
-        self.v = self.gamma * self.v + lr * grad
-
+        self.v = np.multiply(self.gamma, self.v) + np.multiply(lr, grad)
         updated_weight = w - self.v
 
         # =============================================================
@@ -53,7 +50,6 @@ class Momentum:
 
 
 class RMSProp:
-    # ========================= EDIT HERE =========================
     def __init__(self, gamma, epsilon):
         # ========================= EDIT HERE =========================
         self.gamma = gamma
@@ -65,9 +61,8 @@ class RMSProp:
         updated_weight = None
         # ========================= EDIT HERE =========================
 
-        self.Eg = 0.9 * self.Eg + 0.1 * (grad**2)
-        updated_weight = w - (lr * grad)/((self.Eg + self.epsilon)**0.5)
-
+        self.Eg = 0.9 * self.Eg + 0.1 * (np.multiply(grad,grad))
+        updated_weight = w - np.multiply( (lr/((self.Eg+self.epsilon)**0.5)), grad)
 
         # =============================================================
         return updated_weight
