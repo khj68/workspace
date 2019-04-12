@@ -1,0 +1,6 @@
+normalize (exp)
+https://timvieira.github.io/blog/post/2014/02/11/exp-normalize-trick/
+
+https://houxianxu.github.io/2015/04/23/logistic-softmax-regression/
+
+https://pythonkim.tistory.com/19
